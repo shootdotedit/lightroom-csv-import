@@ -24,6 +24,7 @@ local LrView = import 'LrView'
 local LrLogger = import 'LrLogger'
 local LrApplication = import 'LrApplication'
 local LrTasks = import 'LrTasks'
+local LrProgressScope = import 'LrProgressScope'
 
 
 -- Create the logger and enable the print function.
@@ -50,9 +51,9 @@ function parseCSVLine (line,sep)
 			-- quoted value (ignore separator within)
 			local txt = ""
 			repeat
-				local startp,endp = string.find(line,'^%b""',pos)
-				txt = txt..string.sub(line,startp+1,endp-1)
-				pos = endp + 1
+				local startPosition,endPosition = string.find(line,'^%b""',pos)
+				txt = txt..string.sub(line,startPosition+1,endPosition-1)
+				pos = endPosition + 1
 				c = string.sub(line,pos,pos)
 				if (c == '"') then txt = txt..'"' end
 				-- check first char AFTER quoted string, if it is another
@@ -65,10 +66,10 @@ function parseCSVLine (line,sep)
 			pos = pos + 1
 		else
 			-- no quotes used, just look for the first separator
-			local startp,endp = string.find(line,sep,pos)
-			if (startp) then
-				table.insert(res,string.sub(line,pos,startp-1))
-				pos = endp + 1
+			local startPosition,endPosition = string.find(line,sep,pos)
+			if (startPosition) then
+				table.insert(res,string.sub(line,pos,startPosition-1))
+				pos = endPosition + 1
 			else
 				-- no separator found -> use rest of string and terminate
 				table.insert(res,string.sub(line,pos))
@@ -91,7 +92,7 @@ end
 
 function setKeywordTagsToPhoto(catalog, photo, KeywordTags)
 	for keywordTag in KeywordTags:gmatch('[^,%s]+') do
-		catalog:withWriteAccessDo('setKeywordTagsToPhoto', function(context)
+		catalog:withWriteAccessDo('setKeywordTagsToPhoto', function()
 			local newKeyword = catalog:createKeyword(keywordTag, {}, true, nil, true)
 			photo:addKeyword(newKeyword)
 		end)
@@ -109,11 +110,8 @@ end
 	it reflects whatever value 'isChecked' has.
 ]]
 local function showCustomDialog()
-
 	LrFunctionContext.callWithContext( "showCustomDialog", function( context )
-
 	    local f = LrView.osFactory()
-
 	    -- Create a bindable table.  Whenever a field in this table changes
 	    -- then notifications will be sent.
 	    local props = LrBinding.makePropertyTable( context )
@@ -124,7 +122,6 @@ local function showCustomDialog()
 			width = 300,
 			alignment = left
 		}
-
 	    -- Create the contents for the dialog.
 	    local c = f:row {
 		    -- Bind the table to the view.  This enables controls to be bound
@@ -170,7 +167,10 @@ local function showCustomDialog()
 				local CSVTagsBySmartPreviewName = convertCSVIntoTagsBySmartPreviewName(tagsCSVFileName)
 				local catalog = LrApplication.activeCatalog()
 				local allPhotos = catalog:getAllPhotos()
-				for _, photo in ipairs(allPhotos) do
+				local progressScope = LrProgressScope {
+						title = LOC( "$$$/KeywordImporter/ProgressScopeTitle=Applying keywords")
+					}
+				for index, photo in ipairs(allPhotos) do
 					local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
 					--get index of smartPreviewFileName extension
 					local indexOfFileExtension = smartPreviewPath:find(".dng")
@@ -187,7 +187,10 @@ local function showCustomDialog()
 							outputToLog("There is no data in CSV file for SmartPreview file: " .. smartPreviewFileName .. "")
 						end
 					end
+					progressScope:setPortionComplete( index, #allPhotos )
+					progressScope:setCaption(smartPreviewFileName)
 				end
+				progressScope:done()
 			end)
 		else
 			outputToLog("RetVal not OK: " .. retVal)
