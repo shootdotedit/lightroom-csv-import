@@ -1,20 +1,12 @@
 --[[----------------------------------------------------------------------------
 
-ADOBE SYSTEMS INCORPORATED
- Copyright 2007 Adobe Systems Incorporated
- All Rights Reserved.
-
-NOTICE: Adobe permits you to use, modify, and distribute this file in accordance
-with the terms of the Adobe license agreement accompanying it. If you have received
-this file from a source other than Adobe, then your use, modification, or distribution
-of it requires the prior written permission of Adobe.
+License Info:
+ShootDotEdit LLC Copyright 2020
 
 --------------------------------------------------------------------------------
 
 Info.lua
-Summary information for Hello World sample plug-in.
-
-Adds menu items to Lightroom.
+Summary information for ShootDotEdit Keyword Importer plug-in
 
 ------------------------------------------------------------------------------]]
 
@@ -25,17 +17,19 @@ return {
 
 	LrToolkitIdentifier = 'com.adobe.lightroom.sdk.keywordimporter',
 
-	LrPluginName = LOC "$$$/KeywordImporter/PluginName=Keyword Importer",
+	LrPluginName = LOC "$$$/ShootDotEdit/PluginName=SDE Keyword Importer",
+	LrPluginInfoUrl = 'https://shootdotedit.com/',
+	LrPluginInfoProvider = 'PluginInfoProvider.lua',
 
 	-- Add the menu item to the Library menu.
 	
 	LrLibraryMenuItems = {
 		{
-		    title = LOC "$$$/KeywordImporter/DialogObserver=Keyword Importer",
-		    file = "ShowDialog.lua",
+		    title = LOC "$$$/KeywordImporter/DialogObserver=Import CSV",
+		    file = "CsvImporter.lua",
 		},
 	},
-	VERSION = { major=6, minor=2, revision=0, build=1029764, },
+	VERSION = { major=0, minor=1, revision=0, build=1, },
 
 }
 
