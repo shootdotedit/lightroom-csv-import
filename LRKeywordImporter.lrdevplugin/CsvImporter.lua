@@ -25,6 +25,7 @@ local LrLogger = import 'LrLogger'
 local LrApplication = import 'LrApplication'
 local LrTasks = import 'LrTasks'
 local LrProgressScope = import 'LrProgressScope'
+local LrErrors = import 'LrErrors'
 
 
 -- Create the logger and enable the print function.
@@ -167,6 +168,11 @@ local function showCustomDialog()
 			outputToLog("Got file & OK so calling the actual keyword import")
 			LrTasks.startAsyncTask(function()
 				local tagsCSVFileName = staticTextValue.title
+				-- test for CSV currently using string match to the dialog title should use file selector call back
+				if tagsCSVFileName == "Please select a CSV file to import" then
+					LrErrors.throwUserError( "Oops, looks like you are trying to start an import without selecting a CSV file. Please try again." )
+				end  
+
 				local CSVTagsBySmartPreviewName = convertCSVIntoTagsBySmartPreviewName(tagsCSVFileName)
 				local catalog = LrApplication.activeCatalog()
 				local allPhotos = catalog:getAllPhotos()
@@ -197,6 +203,7 @@ local function showCustomDialog()
 			end)
 		else
 			outputToLog("RetVal not OK: " .. retVal)
+			LrErrors.throwUserError( retVal )
 		end
 
 
