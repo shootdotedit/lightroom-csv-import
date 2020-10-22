@@ -85,6 +85,7 @@ function convertCSVIntoTagsBySmartPreviewName(CSCFileName)
 	for line in io.lines(CSCFileName) do
 		local parsed_line = parseCSVLine(line, ",")
 		tagsBySmartPreviewName[parsed_line[2]] = parsed_line[10]
+		-- Note that columns are indexed from 1 not 0 here, so column 2 is Key and 10 is Tags
 	end
 	tagsBySmartPreviewName["key"] = nil
 	return tagsBySmartPreviewName
@@ -95,6 +96,7 @@ function setKeywordTagsToPhoto(catalog, photo, KeywordTags)
 		catalog:withWriteAccessDo('setKeywordTagsToPhoto', function()
 			local newKeyword = catalog:createKeyword(keywordTag, {}, true, nil, true)
 			photo:addKeyword(newKeyword)
+			-- addKeyword prevents keyword duplication and is non case sensitive 
 		end)
 	end
 end
@@ -118,7 +120,7 @@ local function showCustomDialog()
 	    props.isChecked = false
 
 		local staticTextValue = f:static_text {
-			title = "... select CSV file for import",
+			title = "Please select a CSV file...",
 			width = 300,
 			alignment = left
 		}
@@ -134,14 +136,14 @@ local function showCustomDialog()
 				-- width = LrView.share "label_width",
 				alignment = "left",
 				width = 100,
-				title = "Filename: "
+				title = "CSV to Import: "
 			},
 			staticTextValue,
 		    f:push_button {
-					title = "Select file",
+					title = "Select File",
 					action = function()
 						staticTextValue.title = LrDialogs.runOpenPanel({
-							title = "Day One Journal Location",
+							title = "Choose a CSV of Keywords to Import",
 							canChooseDirectories = false,
 							allowsMultipleSelection = false,
 						})[1]
@@ -152,9 +154,10 @@ local function showCustomDialog()
 
 
 	    local retVal = LrDialogs.presentModalDialog {
-			    title = "Keyword Importer",
-				resizable = true,
-				cancelVerb = cancel,
+			    title = "SDE Keyword Importer",
+				resizable = false,
+				actionVerb = "Start Import",
+				cancelVerb = "Cancel",
 			    contents = c
 		}
 
