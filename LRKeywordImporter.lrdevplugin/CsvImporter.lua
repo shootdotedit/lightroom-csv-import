@@ -120,7 +120,7 @@ local function showCustomDialog()
 	    props.isChecked = false
 
 		local staticTextValue = f:static_text {
-			title = "Please select a CSV file...",
+			title = "Please select a CSV file to import",
 			width = 300,
 			alignment = left
 		}
@@ -143,7 +143,7 @@ local function showCustomDialog()
 					title = "Select File",
 					action = function()
 						staticTextValue.title = LrDialogs.runOpenPanel({
-							title = "Choose a CSV of Keywords to Import",
+							title = "Choose a CSV to Import",
 							canChooseDirectories = false,
 							allowsMultipleSelection = false,
 						})[1]
@@ -175,7 +175,7 @@ local function showCustomDialog()
 					}
 				for index, photo in ipairs(allPhotos) do
 					local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
-					--get index of smartPreviewFileName extension
+					--get index of smartPreviewFileName extension, requires v5 of API
 					local indexOfFileExtension = smartPreviewPath:find(".dng")
 					--remove anything from smartPreviewPath except smartPreviewFileName
 					local smartPreviewFileName = smartPreviewPath:sub(indexOfFileExtension - 36, indexOfFileExtension - 1)

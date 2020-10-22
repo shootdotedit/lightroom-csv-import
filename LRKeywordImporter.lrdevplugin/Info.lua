@@ -12,7 +12,7 @@ Summary information for ShootDotEdit Keyword Importer plug-in
 
 return {
 	
-	LrSdkVersion = 3.0,
+	LrSdkVersion = 5.0,
 	LrSdkMinimumVersion = 1.3, -- minimum SDK version required by this plug-in
 
 	LrToolkitIdentifier = 'com.adobe.lightroom.sdk.keywordimporter',
