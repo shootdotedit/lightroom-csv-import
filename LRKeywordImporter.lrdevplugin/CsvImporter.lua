@@ -177,7 +177,7 @@ local function showCustomDialog()
 				local catalog = LrApplication.activeCatalog()
 				local allPhotos = catalog:getAllPhotos()
 				local progressScope = LrProgressScope {
-						title = LOC( "$$$/KeywordImporter/ProgressScopeTitle=Applying keywords")
+						title = LOC( "$$$/KeywordImporter/ProgressScopeTitle=Applying Keywords")
 					}
 				for index, photo in ipairs(allPhotos) do
 					local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
