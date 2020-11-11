@@ -5,7 +5,7 @@ local app = import 'LrApplication'
 PluginManager = {}
 function PluginManager.sectionsForTopOfDialog( f, p )
     return {
-        -- section for the top of the dialog
+        -- section for the top of the dialog sde_fc_kw_001.lrdevplugin
         {
             title = 'Plug-in',
             f:row {
@@ -19,7 +19,7 @@ function PluginManager.sectionsForTopOfDialog( f, p )
             f:row {
                 spacing = f:control_spacing(),
                 f:static_text {
-                    title = 'SDE Keyword Importer',
+                    title = 'FC Magic Carpet',
                     alignment = 'center',
                     fill_horizontal = 1,
                 },

@@ -17,7 +17,7 @@ return {
 
 	LrToolkitIdentifier = 'com.adobe.lightroom.sdk.keywordimporter',
 
-	LrPluginName = LOC "$$$/ShootDotEdit/PluginName=SDE Keyword Importer",
+	LrPluginName = LOC "$$$/ShootDotEdit/PluginName=SDE Data Import",
 	LrPluginInfoUrl = 'https://shootdotedit.com/',
 	LrPluginInfoProvider = 'PluginInfoProvider.lua',
 
@@ -25,7 +25,7 @@ return {
 	
 	LrLibraryMenuItems = {
 		{
-		    title = LOC "$$$/KeywordImporter/DialogObserver=Import CSV",
+		    title = LOC "$$$/KeywordImporter/DialogObserver=Import File Now",
 		    file = "CsvImporter.lua",
 		},
 	},
