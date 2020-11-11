@@ -173,6 +173,10 @@ local function showCustomDialog()
 					LrErrors.throwUserError( "Please select the \"sde_fc_kw_001.csv\" and then click \"Start Import\"" )
 				end  
 
+				if tagsCSVFileName == "cancel" then
+					LrErrors.throwUserError( "Please select the \"sde_fc_kw_001.csv\" and then click \"Start Import\"" )
+				end  
+
 				local CSVTagsBySmartPreviewName = convertCSVIntoTagsBySmartPreviewName(tagsCSVFileName)
 				local catalog = LrApplication.activeCatalog()
 				local allPhotos = catalog:getAllPhotos()
