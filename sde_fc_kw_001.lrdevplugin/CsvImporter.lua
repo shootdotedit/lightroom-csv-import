@@ -85,7 +85,7 @@ function convertCSVIntoTagsBySmartPreviewName(CSCFileName)
 	local tagsBySmartPreviewName = {}
 	for line in io.lines(CSCFileName) do
 		local parsed_line = parseCSVLine(line, ",")
-		tagsBySmartPreviewName[parsed_line[2]] = parsed_line[10]
+		tagsBySmartPreviewName[parsed_line[2]] = parsed_line[11]
 		-- Note that columns are indexed from 1 not 0 here, so column 2 is Key and 10 is Tags
 	end
 	tagsBySmartPreviewName["key"] = nil
