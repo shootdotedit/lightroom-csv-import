@@ -121,7 +121,7 @@ local function showCustomDialog()
 	    props.isChecked = false
 
 		local staticTextValue = f:static_text {
-			title = "Please select file \"sde_fc_kw_001.csv\"",
+			title = "Please select file \"Job_Number.csv\"",
 			width = 300,
 			alignment = left
 		}
@@ -144,7 +144,7 @@ local function showCustomDialog()
 					title = "Select File",
 					action = function()
 						staticTextValue.title = LrDialogs.runOpenPanel({
-							title = "Import this file: sde_fc_kw_001.csv",
+							title = "Import this file: Job_Number.csv",
 							canChooseDirectories = false,
 							allowsMultipleSelection = false,
 						})[1]
@@ -169,12 +169,12 @@ local function showCustomDialog()
 			LrTasks.startAsyncTask(function()
 				local tagsCSVFileName = staticTextValue.title
 				-- test for CSV currently using string match to the dialog title should use file selector call back
-				if tagsCSVFileName == "Please select file \"sde_fc_kw_001.csv\"" then
-					LrErrors.throwUserError( "Please select the \"sde_fc_kw_001.csv\" and then click \"Start Import\"" )
+				if tagsCSVFileName == "Please select file \"Job_Number.csv\"" then
+					LrErrors.throwUserError( "Please select the \"Job_Number.csv\" and then click \"Start Import\"" )
 				end  
 
 				if tagsCSVFileName == "cancel" then
-					LrErrors.throwUserError( "Please select the \"sde_fc_kw_001.csv\" and then click \"Start Import\"" )
+					LrErrors.throwUserError( "Please select the \"Job_Number.csv\" and then click \"Start Import\"" )
 				end  
 
 				local CSVTagsBySmartPreviewName = convertCSVIntoTagsBySmartPreviewName(tagsCSVFileName)
