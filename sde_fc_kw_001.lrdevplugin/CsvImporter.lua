@@ -186,7 +186,6 @@ local function showCustomDialog()
 				for index, photo in ipairs(allPhotos) do
 					local raw_metadata = photo:getRawMetadata("smartPreviewInfo")
 					if raw_metadata["smartPreviewPath"] ~= nil then
-						outputToLog(test)
 						local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
 						outputToLog(smartPreviewPath)
 						--get index of smartPreviewFileName extension, requires v5 of API
