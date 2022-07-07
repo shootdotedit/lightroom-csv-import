@@ -184,20 +184,25 @@ local function showCustomDialog()
 						title = LOC( "$$$/KeywordImporter/ProgressScopeTitle=Applying Keywords")
 					}
 				for index, photo in ipairs(allPhotos) do
-					local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
-					--get index of smartPreviewFileName extension, requires v5 of API
-					local indexOfFileExtension = smartPreviewPath:find(".dng")
-					--remove anything from smartPreviewPath except smartPreviewFileName
-					local smartPreviewFileName = smartPreviewPath:sub(indexOfFileExtension - 36, indexOfFileExtension - 1)
-					--check if have data for smartPreview in CSV table
-					if CSVTagsBySmartPreviewName[smartPreviewFileName] ~= nil then
-						do
-							local keywordTagsFromCSV = CSVTagsBySmartPreviewName[smartPreviewFileName]
-							setKeywordTagsToPhoto(catalog, photo, keywordTagsFromCSV)
-						end
-					else
-						do
-							outputToLog("There is no data in CSV file for SmartPreview file: " .. smartPreviewFileName .. "")
+					local raw_metadata = photo:getRawMetadata("smartPreviewInfo")
+					if raw_metadata["smartPreviewPath"] ~= nil then
+						outputToLog(test)
+						local smartPreviewPath = photo:getRawMetadata("smartPreviewInfo").smartPreviewPath
+						outputToLog(smartPreviewPath)
+						--get index of smartPreviewFileName extension, requires v5 of API
+						local indexOfFileExtension = smartPreviewPath:find(".dng")
+						--remove anything from smartPreviewPath except smartPreviewFileName
+						local smartPreviewFileName = smartPreviewPath:sub(indexOfFileExtension - 36, indexOfFileExtension - 1)
+						--check if have data for smartPreview in CSV table
+						if CSVTagsBySmartPreviewName[smartPreviewFileName] ~= nil then
+							do
+								local keywordTagsFromCSV = CSVTagsBySmartPreviewName[smartPreviewFileName]
+								setKeywordTagsToPhoto(catalog, photo, keywordTagsFromCSV)
+							end
+						else
+							do
+								outputToLog("There is no data in CSV file for SmartPreview file: " .. smartPreviewFileName .. "")
+							end
 						end
 					end
 					progressScope:setPortionComplete( index, #allPhotos )
